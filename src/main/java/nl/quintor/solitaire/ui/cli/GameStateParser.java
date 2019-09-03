@@ -73,6 +73,7 @@ class GameStateParser {
         }
         else{
             return deck.get(index).toShortString();
+            //Dosn't work blyat
         }
     }
 
