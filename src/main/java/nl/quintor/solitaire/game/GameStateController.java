@@ -45,7 +45,7 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyBonusScore(GameState gameState){
-        // TODO: Write implementation
+
     }
 
     /**
