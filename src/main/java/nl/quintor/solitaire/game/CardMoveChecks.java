@@ -30,7 +30,27 @@ public class CardMoveChecks {
      * @param input the user input, split on the space character, cast to uppercase
      * @throws MoveException on syntax error
      */
-    public static void checkPlayerInput(String[] input) throws MoveException{
+    public static void checkPlayerInput(String[] input) throws MoveException {
+        String[] arr = new String[]{"SA", "SB", "SC", "SD", "A", "B", "C", "D", "E", "F", "G"};
+        boolean correct1 = false;
+        boolean correct2 = false;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(input[1])) {
+                correct1 = true;
+            }
+        }
+        for (int j = 0; j < arr.length; j++) {
+            if (arr[j].equals(input[2])) {
+                correct2 = true;
+            }
+        }
+
+        if (input[0] == "M" && correct1 && correct2) { // geen idee
+        } else {
+            throw new MoveException("Invalid Input");
+        }
+
+
         // TODO: Write implementation
 
     }
