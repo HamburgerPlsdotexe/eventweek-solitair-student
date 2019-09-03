@@ -9,6 +9,8 @@ import nl.quintor.solitaire.models.card.Suit;
 import nl.quintor.solitaire.models.deck.Deck;
 import nl.quintor.solitaire.models.deck.DeckType;
 
+import java.util.regex.Pattern;
+
 /**
  * Library class for card move legality checks. The class is not instantiable, all constructors are private and all methods are
  * static. The class contains several private helper methods. All methods throw {@link MoveException}s, which can
@@ -31,27 +33,17 @@ public class CardMoveChecks {
      * @throws MoveException on syntax error
      */
     public static void checkPlayerInput(String[] input) throws MoveException {
-        String[] arr = new String[]{"SA", "SB", "SC", "SD", "A", "B", "C", "D", "E", "F", "G"};
-        boolean correct1 = false;
-        boolean correct2 = false;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i].equals(input[1])) {
-                correct1 = true;
-            }
+        if (input.length != 3) throw new MoveException("Invalid Move syntax. See H̲elp for instructions.");
+        if(!input[1].matches("O|S[A-D]|[A-G]\\d{1,2}")) {
+            throw new MoveException("Invalid Move syntax. \"" + input[1] + "\" is not a valid source location.\n" +
+                "See H̲elp for instructions.");
         }
-        for (int j = 0; j < arr.length; j++) {
-            if (arr[j].equals(input[2])) {
-                correct2 = true;
-            }
-        }
-
-        if (input[0] == "M" && correct1 && correct2) { // geen idee
-        } else {
-            throw new MoveException("Invalid Input");
+        if(!input[2].matches("O|S[A-D]|[A-G]")) {
+            throw new MoveException("Invalid Move syntax. \"" + input[2] + "\" is not a valid destination location.\n" +
+                "See H̲elp for instructions.");
         }
 
 
-        // TODO: Write implementation
 
     }
 
@@ -67,7 +59,16 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     public static void deckLevelChecks(Deck sourceDeck, int sourceCardIndex, Deck destinationDeck) throws MoveException {
-        // TODO: Write implementation
+        if (destinationDeck == sourceDeck) {
+            throw new MoveException("Move source and destination can't be the same");
+        }
+        if (sourceDeck.isEmpty()) {
+            throw new MoveException("You can't move a card from an empty deck");
+        }
+        if (DeckType.STOCK == destinationDeck.getDeckType()){
+            throw new MoveException("You can't move cards to the stock");
+        }
+
     }
 
     /**

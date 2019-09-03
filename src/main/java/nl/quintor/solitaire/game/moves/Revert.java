@@ -3,6 +3,7 @@ package nl.quintor.solitaire.game.moves;
 import nl.quintor.solitaire.game.moves.ex.MoveException;
 import nl.quintor.solitaire.models.state.GameState;
 
+import java.time.ZoneOffset;
 import java.util.List;
 
 /**
@@ -21,8 +22,9 @@ public class Revert implements Move {
      */
     @Override
     public String apply(GameState gameState) throws MoveException{
-        // TODO: Write implementation
-        return null;
+        gameState.getStartTime().toEpochSecond(ZoneOffset.UTC);
+        throw new MoveException("Cannot revert; no moves have been played.");
+
     }
 
     @Override
