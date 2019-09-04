@@ -9,10 +9,10 @@ package nl.quintor.solitaire.models.card;
  * that is non-Windows terminals, this can be a Unicode symbol. In Windows 10 in 2018, it cannot.
  */
 public enum Suit {
-    CLUBS ("\u2667", "C"),
-    DIAMONDS ("\u2666", "D"),
-    HEARTS ("\u2665", "H"),
-    SPADES ("\u2664", "S"),
+    CLUBS ("C", "\u2667"),
+    DIAMONDS ("D", "\u2666"),
+    HEARTS ("H", "\u2665"),
+    SPADES ("S", "\u2664"),
     JOKER("*", "*");
 
     private final String symbol;

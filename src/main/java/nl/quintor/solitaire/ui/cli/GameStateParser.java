@@ -68,8 +68,12 @@ class GameStateParser {
      * @return the requested card or null
      */
     protected static String getCardStringOrNull(Deck deck, int index){
-        // TODO: Write implementation
-        return null;
+        if (deck.isEmpty() || deck.size() > 52){
+            return null;
+        }
+        else{
+            return deck.get(index).toShortString();
+        }
     }
 
     /**
@@ -81,6 +85,14 @@ class GameStateParser {
      * @param totalLength The total length that the String must become
      */
     protected static void padNAdd(StringBuilder builder, String string, int totalLength){
-        // TODO: Write implementation
+        while (builder.length() < totalLength - string.length()) {
+            builder.append(' ');
+        }
+        builder.append(string);
+        while (builder.length() < totalLength){
+            builder.append(' ');
+
+        }
     }
+
 }

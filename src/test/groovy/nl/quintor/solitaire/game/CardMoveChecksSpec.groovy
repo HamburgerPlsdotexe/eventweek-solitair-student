@@ -70,8 +70,8 @@ class CardMoveChecksSpec extends Specification {
             def exception = thrown(MoveException)
             exception.message == exceptionMessage
         where:
-        sourceDeck                            | destinationDeck                |  index | exceptionMessage                                              || testcase
-        new Deck(DeckType.COLUMN)             | new Deck(DeckType.COLUMN )     | 0      |  'You can\'t move a card from an empty deck'                  || 'Moving cards from empty deck should not be possible'
+        sourceDeck                                     | destinationDeck                         |  index | exceptionMessage                                              || testcase
+        new Deck(DeckType.COLUMN)                      | new Deck(DeckType.COLUMN )              | 0      |  'You can\'t move a card from an empty deck'                  || 'Moving cards from empty deck should not be possible'
         TestUtil.createTestDeck(DeckType.COLUMN, 1)    | TestUtil.createTestDeck(DeckType.STOCK) | 888    |  'You can\'t move cards to the stock'                         || 'Moving cards to stock is not allowed'
         TestUtil.createTestDeck(DeckType.COLUMN, 3)    | TestUtil.createTestDeck(DeckType.STACK) | 0      |  'You can\'t move more than 1 card at a time to a Stack Pile' || 'Moving multiple cards is not allowed'
         TestUtil.createTestDeck(DeckType.COLUMN, 3, 2) | TestUtil.createTestDeck(DeckType.STACK) | 0      |  'You can\'t move an invisible card'                          || 'Moving invisible cards is not allowed'
@@ -82,7 +82,7 @@ class CardMoveChecksSpec extends Specification {
         expect:
             CardMoveChecks.deckLevelChecks(sourceDeck, index, destinationDeck)
         where:
-        sourceDeck                         | destinationDeck                |  index || testCase
+        sourceDeck                                  | destinationDeck                         |  index || testCase
         TestUtil.createTestDeck(DeckType.COLUMN, 1) |TestUtil.createTestDeck(DeckType.STACK)  | 1      || "Moving card from column to stack should be allowed"
         TestUtil.createTestDeck(DeckType.COLUMN, 1) |TestUtil.createTestDeck(DeckType.COLUMN) | 0      || "Moving card from column to column should be allowed"
         TestUtil.createTestDeck(DeckType.STOCK, 1)  |TestUtil.createTestDeck(DeckType.COLUMN) | 0      || "Moving card from stock to column should be allowed"

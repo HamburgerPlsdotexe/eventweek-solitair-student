@@ -1,6 +1,7 @@
 package nl.quintor.solitaire.game;
 
 import nl.quintor.solitaire.game.moves.Help;
+import nl.quintor.solitaire.game.moves.Move;
 import nl.quintor.solitaire.game.moves.ex.MoveException;
 import nl.quintor.solitaire.models.card.Card;
 import nl.quintor.solitaire.models.card.Rank;
@@ -31,6 +32,7 @@ public class CardMoveChecks {
      */
     public static void checkPlayerInput(String[] input) throws MoveException{
         // TODO: Write implementation
+
     }
 
     /**
@@ -59,6 +61,7 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     public static void cardLevelChecks(Deck targetDeck, Card cardToAdd) throws MoveException {
+
         // TODO: Write implementation
     }
 
@@ -72,7 +75,12 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     static void checkStackMove(Card targetCard, Card cardToAdd) throws MoveException {
-        // TODO: Write implementation
+        if(targetCard.getOrdinal() - 1 == cardToAdd.getOrdinal() && opposingColor(targetCard,cardToAdd))
+        {
+            //Geen idee, kaart move goedkeuren?
+        }
+
+        else{throw new MoveException("Illegal move"); }
     }
 
     /**
@@ -95,7 +103,7 @@ public class CardMoveChecks {
      */
     static boolean opposingColor(Card card1, Card card2){
         // TODO: Write implementation
-        return true;
+        return redSuit(card1) && !redSuit(card2) || !redSuit(card1) && redSuit(card2);
     }
 
     /**
