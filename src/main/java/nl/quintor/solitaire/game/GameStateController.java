@@ -31,24 +31,41 @@ public class GameStateController {
      */
     public static GameState init(){
         // TODO: Write implementation DONE
+
+        // Create a deck to deal with and shuffle it
         Deck deck = Deck.createDefaultDeck();
         shuffle(deck);
+
+        // Create a GameState
         GameState ResultingGameState = new GameState();
+
+        // Create Stacks and Columns
+        GameStateController.createStacks(ResultingGameState);
+        GameStateController.createColumns(ResultingGameState);
+
+        // Add cards from deck to the Columns, Stacks and Waste
+        GameStateController.addCardsToColumns(ResultingGameState, deck);
+        GameStateController.addCardsToStock(ResultingGameState, deck);
+        GameStateController.addCardsToWaste(ResultingGameState, deck);
+
+        // Set start time
+        //ResultingGameState.setStartTime(LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(),
+        //    LocalDateTime.now().getDayOfMonth(), 0, 0, 0, 0));
+        ResultingGameState.setStartTime(LocalDateTime.now());
+        return ResultingGameState;
+    }
+
+    private static void addCardsToStock(GameState ResultingGameState, Deck deck){
         ResultingGameState.getStock().add(deck.remove(0));
+    }
+
+    private static void addCardsToWaste(GameState ResultingGameState, Deck deck){
         for (int i = 0; i < 23; i++) {
             ResultingGameState.getWaste().add(deck.remove(0));
         }
-        ResultingGameState.getStackPiles().put("SA", new Deck(DeckType.STACK));
-        ResultingGameState.getStackPiles().put("SB", new Deck(DeckType.STACK));
-        ResultingGameState.getStackPiles().put("SC", new Deck(DeckType.STACK));
-        ResultingGameState.getStackPiles().put("SD", new Deck(DeckType.STACK));
-        ResultingGameState.getColumns().put("A", new Deck(DeckType.COLUMN));
-        ResultingGameState.getColumns().put("B", new Deck(DeckType.COLUMN));
-        ResultingGameState.getColumns().put("C", new Deck(DeckType.COLUMN));
-        ResultingGameState.getColumns().put("D", new Deck(DeckType.COLUMN));
-        ResultingGameState.getColumns().put("E", new Deck(DeckType.COLUMN));
-        ResultingGameState.getColumns().put("F", new Deck(DeckType.COLUMN));
-        ResultingGameState.getColumns().put("G", new Deck(DeckType.COLUMN));
+    }
+
+    private static void addCardsToColumns(GameState ResultingGameState, Deck deck){
         ArrayList<String> keysetcolumns = new ArrayList<>(ResultingGameState.getColumns().keySet());
         Collections.sort(keysetcolumns);
         ResultingGameState.getColumns().forEach((key, column) ->
@@ -60,10 +77,23 @@ public class GameStateController {
                 column.setInvisibleCards(i);
             }
         );
-        //ResultingGameState.setStartTime(LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(),
-        //    LocalDateTime.now().getDayOfMonth(), 0, 0, 0, 0));
-        ResultingGameState.setStartTime(LocalDateTime.now());
-        return ResultingGameState;
+    }
+
+    private static void createColumns(GameState ResultingGameState){
+        ResultingGameState.getColumns().put("A", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("B", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("C", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("D", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("E", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("F", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("G", new Deck(DeckType.COLUMN));
+    }
+
+    private static void createStacks(GameState ResultingGameState){
+        ResultingGameState.getStackPiles().put("SA", new Deck(DeckType.STACK));
+        ResultingGameState.getStackPiles().put("SB", new Deck(DeckType.STACK));
+        ResultingGameState.getStackPiles().put("SC", new Deck(DeckType.STACK));
+        ResultingGameState.getStackPiles().put("SD", new Deck(DeckType.STACK));
     }
 
     /**
