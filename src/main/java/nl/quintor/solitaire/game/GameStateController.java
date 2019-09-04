@@ -95,6 +95,7 @@ public class GameStateController {
         else {
             gameState.setTimeScore(0);
         }
+
     }
 
     /**
