@@ -60,7 +60,9 @@ public class GameStateController {
                 column.setInvisibleCards(i);
             }
         );
-        ResultingGameState.setStartTime(LocalDateTime.of(2019, 1, 1, 0, 0, 0, 0));
+        //ResultingGameState.setStartTime(LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(),
+        //    LocalDateTime.now().getDayOfMonth(), 0, 0, 0, 0));
+        ResultingGameState.setStartTime(LocalDateTime.now());
         return ResultingGameState;
     }
 
@@ -71,7 +73,10 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyTimePenalty(GameState gameState){
-        // TODO: Write implementation
+        // TODO: Write implementation WIP
+        int startTimeinSeconds = gameState.getStartTime().getHour() * 60 * 60 + gameState.getStartTime().getMinute() * 60 + gameState.getStartTime().getSecond();
+        int endTimeinSeconds = gameState.getEndTime().getHour() * 60 * 60 + gameState.getEndTime().getMinute() * 60 + gameState.getEndTime().getSecond();
+        gameState.setTimeScore((endTimeinSeconds - startTimeinSeconds) / 10 * - 2);
     }
 
     /**
@@ -81,7 +86,15 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyBonusScore(GameState gameState){
-        // TODO: Write implementation
+        // TODO: Write implementation DONE
+        int startTimeinSeconds = gameState.getStartTime().getHour() * 60 * 60 + gameState.getStartTime().getMinute() * 60 + gameState.getStartTime().getSecond();
+        int endTimeinSeconds = gameState.getEndTime().getHour() * 60 * 60 + gameState.getEndTime().getMinute() * 60 + gameState.getEndTime().getSecond();
+        if (endTimeinSeconds - startTimeinSeconds > 30) {
+            gameState.setTimeScore(gameState.getTimeScore() + (700000 / (endTimeinSeconds - startTimeinSeconds)));
+        }
+        else {
+            gameState.setTimeScore(0);
+        }
     }
 
     /**
@@ -92,7 +105,7 @@ public class GameStateController {
      * @param gameState GameState object of which it is determined if the game has been won
      */
     public static void detectGameWin(GameState gameState) {
-        // TODO: Write implementation WIP
+        // TODO: Write implementation DONE
         // gameState.getStackPiles()
         ArrayList<Integer> result = new ArrayList<>();
         for(Deck column : gameState.getColumns().values()){
@@ -102,4 +115,12 @@ public class GameStateController {
             gameState.setGameWon(true);
         }
     }
+
+//    public static void endGame(GameState gameState) {
+//        if (gameState.isGameOver()) {
+//            int startTimeinSeconds = gameState.getStartTime().getHour() * 60 * 60 + gameState.getStartTime().getMinute() * 60 + gameState.getStartTime().getSecond();
+//            int endTimeinSeconds = LocalDateTime.now().getHour() * 60 * 60 + LocalDateTime.now().getMinute() * 60 + LocalDateTime.now().getSecond();
+//            gameState.setEndTime(LocalDateTime.now());
+//        }
+//    }
 }
