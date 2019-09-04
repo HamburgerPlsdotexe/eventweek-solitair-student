@@ -9,10 +9,9 @@ import nl.quintor.solitaire.models.state.GameState;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static java.util.Collections.shuffle;
 
@@ -31,7 +30,7 @@ public class GameStateController {
      * @return a new GameState object, ready to go
      */
     public static GameState init(){
-        // TODO: Write implementation WIP
+        // TODO: Write implementation DONE
         Deck deck = Deck.createDefaultDeck();
         shuffle(deck);
         GameState ResultingGameState = new GameState();
@@ -55,13 +54,15 @@ public class GameStateController {
         ResultingGameState.getColumns().forEach((key, column) ->
             {
                 int i = keysetcolumns.indexOf(key);
-                for (int j = 0; j < i ; j++){
+                for (int j = 0; j <= i ; j++){
                     column.add(deck.remove(0));
                 }
-                column.setInvisibleCards(i - 1);
+                column.setInvisibleCards(i);
             }
         );
-        ResultingGameState.setStartTime(LocalDateTime.of(2019, 1, 1, 0, 0, 0, 0));
+        //ResultingGameState.setStartTime(LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth(),
+        //    LocalDateTime.now().getDayOfMonth(), 0, 0, 0, 0));
+        ResultingGameState.setStartTime(LocalDateTime.now());
         return ResultingGameState;
     }
 
@@ -72,7 +73,10 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyTimePenalty(GameState gameState){
-        // TODO: Write implementation
+        // TODO: Write implementation WIP
+        int startTimeinSeconds = gameState.getStartTime().getHour() * 60 * 60 + gameState.getStartTime().getMinute() * 60 + gameState.getStartTime().getSecond();
+        int endTimeinSeconds = gameState.getEndTime().getHour() * 60 * 60 + gameState.getEndTime().getMinute() * 60 + gameState.getEndTime().getSecond();
+        gameState.setTimeScore((endTimeinSeconds - startTimeinSeconds) / 10 * - 2);
     }
 
     /**
@@ -82,6 +86,15 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyBonusScore(GameState gameState){
+        // TODO: Write implementation DONE
+        int startTimeinSeconds = gameState.getStartTime().getHour() * 60 * 60 + gameState.getStartTime().getMinute() * 60 + gameState.getStartTime().getSecond();
+        int endTimeinSeconds = gameState.getEndTime().getHour() * 60 * 60 + gameState.getEndTime().getMinute() * 60 + gameState.getEndTime().getSecond();
+        if (endTimeinSeconds - startTimeinSeconds > 30) {
+            gameState.setTimeScore(gameState.getTimeScore() + (700000 / (endTimeinSeconds - startTimeinSeconds)));
+        }
+        else {
+            gameState.setTimeScore(0);
+        }
 
     }
 
@@ -92,7 +105,23 @@ public class GameStateController {
      *
      * @param gameState GameState object of which it is determined if the game has been won
      */
-    public static void detectGameWin(GameState gameState){
-        // TODO: Write implementation
+    public static void detectGameWin(GameState gameState) {
+        // TODO: Write implementation DONE
+        // gameState.getStackPiles()
+        ArrayList<Integer> result = new ArrayList<>();
+        for(Deck column : gameState.getColumns().values()){
+            result.add(column.getInvisibleCards());
+            }
+        if (gameState.sumOfArray(result) == 0){
+            gameState.setGameWon(true);
+        }
     }
+
+//    public static void endGame(GameState gameState) {
+//        if (gameState.isGameOver()) {
+//            int startTimeinSeconds = gameState.getStartTime().getHour() * 60 * 60 + gameState.getStartTime().getMinute() * 60 + gameState.getStartTime().getSecond();
+//            int endTimeinSeconds = LocalDateTime.now().getHour() * 60 * 60 + LocalDateTime.now().getMinute() * 60 + LocalDateTime.now().getSecond();
+//            gameState.setEndTime(LocalDateTime.now());
+//        }
+//    }
 }
