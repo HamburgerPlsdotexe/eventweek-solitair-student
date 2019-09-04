@@ -1,13 +1,20 @@
 package nl.quintor.solitaire.game;
 
+import nl.quintor.solitaire.models.card.Card;
+import nl.quintor.solitaire.models.card.Rank;
+import nl.quintor.solitaire.models.card.Suit;
 import nl.quintor.solitaire.models.deck.Deck;
 import nl.quintor.solitaire.models.deck.DeckType;
 import nl.quintor.solitaire.models.state.GameState;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Set;
+
+import static java.util.Collections.shuffle;
 
 /**
  * Library class for GameState initiation and status checks that are called from {@link nl.quintor.solitaire.Main}.
@@ -24,8 +31,38 @@ public class GameStateController {
      * @return a new GameState object, ready to go
      */
     public static GameState init(){
-        // TODO: Write implementation
-        return new GameState();
+        // TODO: Write implementation WIP
+        Deck deck = Deck.createDefaultDeck();
+        shuffle(deck);
+        GameState ResultingGameState = new GameState();
+        ResultingGameState.getStock().add(deck.remove(0));
+        for (int i = 0; i < 23; i++) {
+            ResultingGameState.getWaste().add(deck.remove(0));
+        }
+        ResultingGameState.getStackPiles().put("SA", new Deck(DeckType.STACK));
+        ResultingGameState.getStackPiles().put("SB", new Deck(DeckType.STACK));
+        ResultingGameState.getStackPiles().put("SC", new Deck(DeckType.STACK));
+        ResultingGameState.getStackPiles().put("SD", new Deck(DeckType.STACK));
+        ResultingGameState.getColumns().put("A", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("B", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("C", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("D", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("E", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("F", new Deck(DeckType.COLUMN));
+        ResultingGameState.getColumns().put("G", new Deck(DeckType.COLUMN));
+        ArrayList<String> keysetcolumns = new ArrayList<>(ResultingGameState.getColumns().keySet());
+        Collections.sort(keysetcolumns);
+        ResultingGameState.getColumns().forEach((key, column) ->
+            {
+                int i = keysetcolumns.indexOf(key);
+                for (int j = 0; j < i ; j++){
+                    column.add(deck.remove(0));
+                }
+                column.setInvisibleCards(i - 1);
+            }
+        );
+        ResultingGameState.setStartTime(LocalDateTime.of(2019, 1, 1, 0, 0, 0, 0));
+        return ResultingGameState;
     }
 
     /**
