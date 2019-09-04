@@ -9,10 +9,9 @@ import nl.quintor.solitaire.models.state.GameState;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static java.util.Collections.shuffle;
 
@@ -31,7 +30,7 @@ public class GameStateController {
      * @return a new GameState object, ready to go
      */
     public static GameState init(){
-        // TODO: Write implementation WIP
+        // TODO: Write implementation DONE
         Deck deck = Deck.createDefaultDeck();
         shuffle(deck);
         GameState ResultingGameState = new GameState();
@@ -92,7 +91,15 @@ public class GameStateController {
      *
      * @param gameState GameState object of which it is determined if the game has been won
      */
-    public static void detectGameWin(GameState gameState){
-        // TODO: Write implementation
+    public static void detectGameWin(GameState gameState) {
+        // TODO: Write implementation WIP
+        // gameState.getStackPiles()
+        ArrayList<Integer> result = new ArrayList<>();
+        for(Deck column : gameState.getColumns().values()){
+            result.add(column.getInvisibleCards());
+            }
+        if (gameState.sumOfArray(result) == 0){
+            gameState.setGameWon(true);
+        }
     }
 }

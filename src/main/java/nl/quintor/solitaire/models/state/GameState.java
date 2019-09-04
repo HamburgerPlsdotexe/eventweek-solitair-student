@@ -245,4 +245,15 @@ public final class GameState {
             String.format("%02d", duration / 60) +
             ":" + String.format("%02d", duration % 60) + " for " + getScore() + " points";
     }
+
+    public int sumOfArray(ArrayList<Integer> array){
+        array.trimToSize();
+        if(array.size() == 1){
+            return array.get(0);
+        }
+        else {
+            array.add(0, array.remove(0) + array.remove(0));
+            return sumOfArray(array);
+        }
+    };
 }
