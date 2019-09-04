@@ -82,8 +82,23 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     public static void cardLevelChecks(Deck targetDeck, Card cardToAdd) throws MoveException {
+        if(targetDeck.getDeckType() != DeckType.STACK && targetDeck.getDeckType() != DeckType.COLUMN){
+            throw new MoveException("Target deck is neither Stack nor Column.");}
+        else if (!targetDeck.isEmpty() && !opposingColor(targetDeck.get(0), cardToAdd) && targetDeck.getDeckType() == DeckType.COLUMN) {
+            throw new MoveException("Column cards have te alternate colors (red and black)");
+        } else if (targetDeck.isEmpty() && targetDeck.getDeckType() == DeckType.STACK && cardToAdd.getRank() != Rank.ACE) {
+            throw new MoveException("An Ace has to be the first card of a Stack Pile");
+        } else if (!targetDeck.isEmpty() && targetDeck.getDeckType() == DeckType.STACK && targetDeck.get(0).getSuit() != cardToAdd.getSuit()) {
+            throw new MoveException("Stack Piles can only contain same-suit cards");
+        } else if (!targetDeck.isEmpty() && targetDeck.getDeckType() == DeckType.STACK ) {
+            throw new MoveException("Stack Piles hold same-suit cards of increasing Rank from Ace to King");
+        } else if (targetDeck.getDeckType() == DeckType.COLUMN && cardToAdd.getRank() != Rank.KING && targetDeck.isEmpty()) {
+            throw new MoveException("A King has to be the first card of a Column");
+        } else if (!targetDeck.isEmpty() && targetDeck.getDeckType() == DeckType.COLUMN && opposingColor(targetDeck.get(0), cardToAdd) && cardToAdd.getOrdinal()-1 == targetDeck.get(0).getOrdinal()){
+            throw new MoveException("Columns hold alternating-color cards of decreasing rank from King to Two");
+        }
 
-        // TODO: Write implementation
+
     }
 
     // Helper methods

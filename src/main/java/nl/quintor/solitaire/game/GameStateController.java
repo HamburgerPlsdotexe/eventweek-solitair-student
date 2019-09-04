@@ -25,7 +25,6 @@ public class GameStateController {
      */
     public static GameState init(){
         // TODO: Write implementation
-
         return new GameState();
     }
 
@@ -46,8 +45,8 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyBonusScore(GameState gameState){
-
-     }
+        // TODO: Write implementation
+    }
 
     /**
      * Detects if the game has been won, and if so, sets the gameWon flag in the GameState object.
