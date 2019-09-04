@@ -55,10 +55,10 @@ public class GameStateController {
         ResultingGameState.getColumns().forEach((key, column) ->
             {
                 int i = keysetcolumns.indexOf(key);
-                for (int j = 0; j < i ; j++){
+                for (int j = 0; j <= i ; j++){
                     column.add(deck.remove(0));
                 }
-                column.setInvisibleCards(i - 1);
+                column.setInvisibleCards(i);
             }
         );
         ResultingGameState.setStartTime(LocalDateTime.of(2019, 1, 1, 0, 0, 0, 0));
