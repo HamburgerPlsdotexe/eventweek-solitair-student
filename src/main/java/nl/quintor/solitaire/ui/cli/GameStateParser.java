@@ -85,6 +85,14 @@ class GameStateParser {
      * @param totalLength The total length that the String must become
      */
     protected static void padNAdd(StringBuilder builder, String string, int totalLength){
-        // TODO: Write implementation
+        while (builder.length() < totalLength - string.length()) {
+            builder.append(' ');
+        }
+        builder.append(string);
+        while (builder.length() < totalLength){
+            builder.append(' ');
+
+        }
     }
+
 }
