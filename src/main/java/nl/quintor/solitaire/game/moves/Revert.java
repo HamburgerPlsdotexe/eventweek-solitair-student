@@ -13,7 +13,7 @@ public class Revert implements Move {
 
     /**
      * Applies the {@link RevertibleMove#revert(GameState)}-method of the previous RevertibleMove contained in the
-     * {@link GameState# moves} list to the Gamestate object.
+     * {@link GameState#moves} list to the Gamestate object.
      *
      * @param gameState GameState object to which the revert operation will be applied
      * @return return value of the reverting Move's {@link RevertibleMove#revert(GameState)} method
@@ -21,7 +21,8 @@ public class Revert implements Move {
      */
     @Override
     public String apply(GameState gameState) throws MoveException{
-        throw new MoveException("Cannot revert; no moves have been played.");
+        // TODO: Write implementation
+        return null;
     }
 
     @Override
