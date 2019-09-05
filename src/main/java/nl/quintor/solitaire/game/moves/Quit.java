@@ -16,8 +16,9 @@ public class Quit implements Move{
      */
     @Override
     public String apply(GameState gameState){
-        // TODO: Write implementation
-        return "";
+        if (gameState.isGameLost());{
+            gameState.setGameLost(true);}
+        return "Game Over";
     }
 
     @Override
@@ -26,8 +27,7 @@ public class Quit implements Move{
     }
 
     @Override
-    public String toString(){
-        // TODO: Write implementation
-        return null;
+    public String toString() {
+        return "Q̲uit";
     }
 }
