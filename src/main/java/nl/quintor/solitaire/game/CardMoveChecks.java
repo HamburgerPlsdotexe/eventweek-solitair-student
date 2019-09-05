@@ -9,6 +9,8 @@ import nl.quintor.solitaire.models.card.Suit;
 import nl.quintor.solitaire.models.deck.Deck;
 import nl.quintor.solitaire.models.deck.DeckType;
 
+import java.util.regex.Pattern;
+
 /**
  * Library class for card move legality checks. The class is not instantiable, all constructors are private and all methods are
  * static. The class contains several private helper methods. All methods throw {@link MoveException}s, which can
@@ -30,8 +32,18 @@ public class CardMoveChecks {
      * @param input the user input, split on the space character, cast to uppercase
      * @throws MoveException on syntax error
      */
-    public static void checkPlayerInput(String[] input) throws MoveException{
-        // TODO: Write implementation
+    public static void checkPlayerInput(String[] input) throws MoveException {
+        if (input.length != 3) throw new MoveException("Invalid Move syntax. See H̲elp for instructions.");
+        if(!input[1].matches("O|S[A-D]|[A-G]\\d{1,2}")) {
+            throw new MoveException("Invalid Move syntax. \"" + input[1] + "\" is not a valid source location.\n" +
+                "See H̲elp for instructions.");
+        }
+        if(!input[2].matches("O|S[A-D]|[A-G]")) {
+            throw new MoveException("Invalid Move syntax. \"" + input[2] + "\" is not a valid destination location.\n" +
+                "See H̲elp for instructions.");
+        }
+
+
 
     }
 
@@ -47,7 +59,16 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     public static void deckLevelChecks(Deck sourceDeck, int sourceCardIndex, Deck destinationDeck) throws MoveException {
-        // TODO: Write implementation
+        if (destinationDeck == sourceDeck) {
+            throw new MoveException("Move source and destination can't be the same");
+        }
+        if (sourceDeck.isEmpty()) {
+            throw new MoveException("You can't move a card from an empty deck");
+        }
+        if (DeckType.STOCK == destinationDeck.getDeckType()){
+            throw new MoveException("You can't move cards to the stock");
+        }
+
     }
 
     /**
@@ -61,8 +82,23 @@ public class CardMoveChecks {
      * @throws MoveException on illegal move
      */
     public static void cardLevelChecks(Deck targetDeck, Card cardToAdd) throws MoveException {
+        if(targetDeck.getDeckType() != DeckType.STACK && targetDeck.getDeckType() != DeckType.COLUMN){
+            throw new MoveException("Target deck is neither Stack nor Column.");}
+        else if (!targetDeck.isEmpty() && !opposingColor(targetDeck.get(0), cardToAdd) && targetDeck.getDeckType() == DeckType.COLUMN) {
+            throw new MoveException("Column cards have te alternate colors (red and black)");
+        } else if (targetDeck.isEmpty() && targetDeck.getDeckType() == DeckType.STACK && cardToAdd.getRank() != Rank.ACE) {
+            throw new MoveException("An Ace has to be the first card of a Stack Pile");
+        } else if (!targetDeck.isEmpty() && targetDeck.getDeckType() == DeckType.STACK && targetDeck.get(0).getSuit() != cardToAdd.getSuit()) {
+            throw new MoveException("Stack Piles can only contain same-suit cards");
+        } else if (!targetDeck.isEmpty() && targetDeck.getDeckType() == DeckType.STACK ) {
+            throw new MoveException("Stack Piles hold same-suit cards of increasing Rank from Ace to King");
+        } else if (targetDeck.getDeckType() == DeckType.COLUMN && cardToAdd.getRank() != Rank.KING && targetDeck.isEmpty()) {
+            throw new MoveException("A King has to be the first card of a Column");
+        } else if (!targetDeck.isEmpty() && targetDeck.getDeckType() == DeckType.COLUMN && opposingColor(targetDeck.get(0), cardToAdd) && cardToAdd.getOrdinal()-1 == targetDeck.get(0).getOrdinal()){
+            throw new MoveException("Columns hold alternating-color cards of decreasing rank from King to Two");
+        }
 
-        // TODO: Write implementation
+
     }
 
     // Helper methods
