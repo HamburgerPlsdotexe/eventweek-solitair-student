@@ -116,6 +116,14 @@ public class GameStateController {
      * @param gameState GameState object that the score penalty is applied to
      */
     public static void applyBonusScore(GameState gameState){
+        int startTimeinSeconds = gameState.getStartTime().getHour() * 60 * 60 + gameState.getStartTime().getMinute() * 60 + gameState.getStartTime().getSecond();
+        int endTimeinSeconds = gameState.getEndTime().getHour() * 60 * 60 + gameState.getEndTime().getMinute() * 60 + gameState.getEndTime().getSecond();
+        if (endTimeinSeconds - startTimeinSeconds > 30) {
+            gameState.setTimeScore(gameState.getTimeScore() + (700000 / (endTimeinSeconds - startTimeinSeconds)));
+        }
+        else {
+            gameState.setTimeScore(0);
+        }
 
     }
 
